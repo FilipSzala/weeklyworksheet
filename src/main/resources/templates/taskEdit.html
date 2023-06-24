@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Weekly worksheet</title>
+    <link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+<div class="headline">
+    <h1>Edit task-<h1 style="display: flex" th:text="${task.getName()}"></h1></h1>
+</div>
+
+
+<form th:action="@{'/editTask/' + ${task.id}}" method="post">
+    <div class="main-container">
+        <div class="task-type-container">
+            <p>New task type</p>
+            <select name="type" class="type-select">
+                <option th:each="taskType : ${T(pl.weeklyplanner.weeklyworksheet.model.TaskType).values()}"
+                        th:value="${taskType}" name="type">
+                    <p th:if="${taskType.name()=='ONETIMETASK'}">One time task</p>
+                    <p th:if="${taskType.name()=='WEEKLYTASK'}">Weekly task</p>
+                </option>
+            </select>
+        </div>
+        <div class="task-name-container">
+            <p>New name of task </p>
+            <input type="text" th:placeholder="${taskName}" name="name" required>
+
+        </div>
+        <div class="task-category-container">
+            <p>New category</p>
+            <select name="category" class="category-select">
+                <option th:each="taskCategory : ${T(pl.weeklyplanner.weeklyworksheet.model.TaskCategory).values()}"
+                        th:value="${taskCategory}" name="category">
+                    <p th:if="${taskCategory.name()=='NORMAL'}">Normal</p>
+                    <p th:if="${taskCategory.name()=='IMPORTANT'}">Important</p>
+                    <p th:if="${taskCategory.name()=='THEMOSTIMPORTANT'}">The most important</p>
+                </option>
+            </select>
+        </div>
+        <div class="button-container">
+            <button type="submit" class="add-button">Change</button>
+        </div>
+    </div>
+</form>
+<div style="display: flex; margin-top: 40px; justify-content: center;">
+            <form th:action="@{/currentDuties}" method="get">
+                </form>
+    <form th:action="${previousPage}=='http://localhost:8080/result?'? @{/result}:@{/currentDuties}" method="get">
+                    <button class="check-button">Back</button>
+                            </form>
+    <form th:action="@{/home}" method="get">
+        <button type="submit" class="resultandhome-button">Home</button>
+    </form>
+        </div>      
+</div>
+</body>
+</html>
+
+

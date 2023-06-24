@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Weekly worksheet</title>
+    <link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+<h3 th:if="${username!=null}" th:text="'Employee :  ' + ${username}" style="margin:0px;"></h3>
+    <div class="headline">
+<h1>Employee - work plan</h1>
+</div>
+<div class="container-button">
+<section style="display: flex">
+
+    <form th:action="@{/task}" method="get">
+<button type="submit" class="manage-button">Add Task</button>
+    </form>
+    <form th:action="@{/currentDuties}" method="get">
+<button class="check-button">Current Duties</button>
+        </form>
+    <form th:action="@{/result}" method="get">
+<button type="submit" class="result-button">Result</button>
+    </form>
+</section>
+</div>
+</body>
+</html>
+
+

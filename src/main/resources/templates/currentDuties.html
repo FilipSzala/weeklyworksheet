@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+        <title>Weekly worksheet</title>
+        <link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+    <h3 th:if="${username!=null}" th:text="'Username :  ' + ${username}" style="margin:0px;"></h3>
+    <div style="width: 435px;">
+    <div class="date-container" >
+        <p>Week from&nbsp;<span  th:text="${currentWeek}"></span></p>
+    </div>
+    <div>
+
+    <div style="display: flex;">
+        <div class="tick-icon-container">
+            <p>🗸</p>
+        </div>
+        <div class="number-icon-container">
+            <p>I</p>
+        </div>
+        <div class= "description-container">
+            <p>One-Time Task</p>
+        </div>
+        <div  class ="category-container">
+            <p>Category</p>
+        </div>
+        <div class ="delete-container">
+            <p>X</p>
+        </div>
+
+    </div>
+</div>
+
+
+<div style="display: flex;" th:each="task : ${tasksWithOneTimeType}">
+<div class="checkbox-container">
+            <form>
+            <input class="checkbox-type" type="checkbox" th:checked="${task.checkboxValue}" th:onclick="|window.location.href='/currentDuties/checkboxValue/' + ${task.id}|">
+            </form>
+</div>
+<div class="number-icon-in-examples-container">
+    <p th:text="${tasksWithOneTimeType.indexOf(task)+1}"></p>
+</div>
+
+<div class= "description-in-examples-container">
+    <a style= "text-decoration: none;
+       color: black;" th:href="@{'/editTask/' + ${task.id}}" th:text="${task.name}"></a>
+</div>
+
+<div class ="category-in-examples-container">
+    <p style="color: #c40e2e" th:if="${task.getCategory().toString()=='THEMOSTIMPORTANT'}">The most important</p>
+    <p style="color: #2ab12a;" th:if="${task.getCategory().toString()=='IMPORTANT'}">Important</p>
+    <p style="color: #3ca9ff" th:if="${task.getCategory().toString()=='NORMAL'}">Normal</p>
+</div>
+<div class ="delete-button-container">
+    <form style="display: flex" th:action="@{'/deleteTask/' + ${task.id}}" method="get">
+    <button type="submit">Delete</button>
+    </form>
+    </div>
+
+</div>
+
+
+    <div style="display: flex;">
+        <div style="border-top: none" class="tick-icon-container">
+            <p>🗸</p>
+        </div>
+        <div style="border-top: none" class="number-icon-container">
+            <p>I</p>
+        </div>
+        <div style="border-top: none" class= "description-container">
+            <p>Weekly Task</p>
+        </div>
+        <div style="border-top: none" class ="category-container">
+            <p>Category</p>
+        </div>
+        <div style="border-top: none" class ="delete-container">
+            <p>X</p>
+        </div>
+    </div>
+
+    <div style="display: flex;" th:each="task : ${tasksWithWeeklyType}">
+        <div class="checkbox-container">
+            <input class="checkbox-type" type="checkbox" th:checked="${task.checkboxValue}" th:onclick="|window.location.href='/currentDuties/checkboxValue/' + ${task.id}|">
+        </div>
+        <div class="number-icon-in-examples-container">
+            <p th:text="${tasksWithWeeklyType.indexOf(task)+1}"></p>
+        </div>
+        <div class= "description-in-examples-container">
+            <a style= "text-decoration: none;
+       color: black;" th:href="@{'/editTask/' + ${task.id}}" th:text="${task.name}"></a>
+        </div>
+        <div class ="category-in-examples-container">
+            <p style="color: #c40e2e" th:if="${task.getCategory().toString()=='THEMOSTIMPORTANT'}">The most important</p>
+            <p style="color: #2ab12a;" th:if="${task.getCategory().toString()=='IMPORTANT'}">Important</p>
+            <p style="color: #3ca9ff" th:if="${task.getCategory().toString()=='NORMAL'}">Normal</p>
+        </div>
+        <div class ="delete-button-container">
+            <form style="display: flex" th:action="@{'/deleteTask/' + ${task.id}}" method="get">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    </div>
+    <div style="display: flex; margin-top: 40px; justify-content: center;">
+        <form th:action="@{/task}" method="get">
+            <button type="submit" class="manage-button">Add Task</button>
+                </form>
+                <form th:action="@{/currentDuties}" method="get">
+                    <div class="button-edit-container">
+            <button class="edit-button">Edit Task</button>
+            <p class="edit-hover-button-information">
+                Click on the name of task you want to edit.
+            </p>
+            </div>
+                    </form>
+        <form th:action="@{/result}" method="get">
+            <button type="submit" class="result-button">Result</button>
+        </form>
+        <form th:action="@{/home}" method="get">
+            <button type="submit" class="resultandhome-button">Home</button>
+        </form>
+    </div>
+
+</div>
+
+
+
+</body>
+</html>
+

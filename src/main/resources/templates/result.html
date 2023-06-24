@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Result</title>
+    <link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+<h3 th:if="${username!=null}" th:text="'Employee :  ' + ${username}" style="margin:0px;"></h3>
+<div style="margin-left:20px">
+    <div style="display: grid;
+    grid-template-columns: 1fr 1fr 1fr;">
+        <h2 style="display: flex; align-items: center; justify-content: center;"><span style="width: 320px;" th:text="${summary.getTargetDate==null? currentWeek : weekDate}"></span></h2>
+        <div style="display: flex; height: 20px; margin-top: 30px;">
+            <h3 style="margin:0;">Change date&nbsp;&nbsp;</h3>
+
+            <select onchange="redirect(this)">
+                <option value="" disabled selected th:text="${summary.getYear()==0? 'Year' : summary.getYear()}"></option>
+                <option  th:each="year : ${years}" th:value="'http://localhost:8080/searchYear/' + ${year}" th:text="${year}"></option>
+            </select>
+
+            <script>
+                function redirect(selectElement) {
+                    var selectedOption = selectElement.value;
+
+                    if (selectedOption !== "") {
+                        window.location.href = selectedOption;
+                    }
+                }
+            </script>
+
+
+            <select onchange="redirect(this)">
+                <option value="" disabled selected th:text="${summary.getMonth()==null? 'Month' : summary.getMonth()}"></option>
+                <option  th:each="month : ${months}" th:value="'http://localhost:8080/searchMonth/' + ${month}" th:text="${month}"></option>
+            </select>
+
+            <script>
+                function redirect(selectElement) {
+                    var selectedOption = selectElement.value;
+
+                    if (selectedOption !== "") {
+                        window.location.href = selectedOption;
+                    }
+                }
+            </script>
+
+            <select onchange="redirect(this)">
+                <option value="" disabled selected>Week</option>
+                <option th:each="week : ${weeks}" th:if="${weeks.indexOf(week)+1 < weeks.size && weeks.indexOf(week)%2==0}" th:value="'http://localhost:8080/searchDate/' + ${week}" th:text="${week} + ' to ' + ${weeks.get(weeks.indexOf(week)+1)}"></option>
+            </select>
+
+            <script>
+                function redirect(selectElement) {
+                    var selectedOption = selectElement.value;
+
+                    if (selectedOption !== "") {
+                        window.location.href = selectedOption;
+                    }
+                }
+            </script>
+        </div>
+        <div style="">
+            <p style="margin: 6px; color:#3ca9ff"> Normal - 1 pt</p>
+            <p style="margin: 6px; color:#2ab12a"> Important - 2 pts</p>
+            <p style="margin: 6px; color: #c40e2e;" > The most important - 3 pts</p>
+
+        </div>
+    </div>
+
+    <div class="grid-container" style="display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 30px;">
+        <div>
+
+
+
+
+            <div style="width: 435px;">
+                <div class="date-container" >
+                    <p>Task done</p>
+                </div>
+                <div>
+
+                    <div style="display: flex;">
+                        <div class="tick-icon-container">
+                            <p>🗸</p>
+                        </div>
+                        <div class="number-icon-container">
+                            <p>I</p>
+                        </div>
+                        <div class= "description-container">
+                            <p>One-Time Task</p>
+                        </div>
+                        <div  class ="category-container">
+                            <p>Category</p>
+                        </div>
+                        <div class ="delete-container">
+                            <p>X</p>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div style="display: flex;"  th:each="task : ${finishedTasksWithOneTimeTask}" >
+
+
+                    <div class="checkbox-container">
+                        <form >
+                            <input class="checkbox-type" type="checkbox" th:checked="${task.checkboxValue}" th:onclick="|window.location.href='/currentDuties/checkboxValue/' + ${task.id}|">
+                        </form>
+                    </div>
+                    <div class="number-icon-in-examples-container">
+                        <p th:text="${finishedTasksWithOneTimeTask.indexOf(task)+1}"></p>
+                    </div>
+
+                    <div class= "description-in-examples-container">
+                        <a style= "text-decoration: none;
+       color: black;" th:href="@{'/editTask/' + ${task.id}}" th:text="${task.name}"></a>
+                    </div>
+
+                    <div class ="category-in-examples-container">
+                        <p style="color: #c40e2e" th:if="${task.getCategory().toString()=='THEMOSTIMPORTANT'}">The most important</p>
+                        <p style="color: #2ab12a;" th:if="${task.getCategory().toString()=='IMPORTANT'}">Important</p>
+                        <p style="color: #3ca9ff" th:if="${task.getCategory().toString()=='NORMAL'}">Normal</p>
+                    </div>
+                    <div class ="delete-button-container">
+                        <form style="display: flex" th:action="@{'/deleteTask/' + ${task.id}}" method="get">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>
+
+                </div>
+
+
+
+
+                <div style="display: flex;">
+                    <div style="border-top: none" class="tick-icon-container">
+                        <p>🗸</p>
+                    </div>
+                    <div style="border-top: none" class="number-icon-container">
+                        <p>I</p>
+                    </div>
+                    <div style="border-top: none" class= "description-container">
+                        <p>Weekly Task</p>
+                    </div>
+                    <div style="border-top: none" class ="category-container">
+                        <p>Category</p>
+                    </div>
+                    <div style="border-top: none" class ="delete-container">
+                        <p>X</p>
+                    </div>
+                </div>
+
+                <div style="display: flex;"  th:each="task : ${finishedTasksWithWeeklyType}">
+                    <div class="checkbox-container">
+                        <input class="checkbox-type" type="checkbox" th:checked="${task.checkboxValue}" th:onclick="|window.location.href='/currentDuties/checkboxValue/' + ${task.id}|">
+                    </div>
+                    <div class="number-icon-in-examples-container">
+                        <p th:text="${finishedTasksWithWeeklyType.indexOf(task)+1}"></p>
+                    </div>
+                    <div class= "description-in-examples-container">
+                        <a style= "text-decoration: none;
+       color: black;" th:href="@{'/editTask/' + ${task.id}}" th:text="${task.name}"></a>
+                    </div>
+                    <div class ="category-in-examples-container">
+                        <p style="color: #c40e2e" th:if="${task.getCategory().toString()=='THEMOSTIMPORTANT'}">The most important</p>
+                        <p style="color: #2ab12a;" th:if="${task.getCategory().toString()=='IMPORTANT'}">Important</p>
+                        <p style="color: #3ca9ff" th:if="${task.getCategory().toString()=='NORMAL'}">Normal</p>
+                    </div>
+                    <div class ="delete-button-container">
+                        <form style="display: flex" th:action="@{'/deleteTask/' + ${task.id}}" method="get">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div style="width: 435px;">
+
+
+
+            <div style="display: inline;">
+                <div class="date-container"  >
+                    <p>Task not done</p>
+                </div>
+                <div>
+
+                    <div style="display: flex;">
+                        <div class="tick-icon-container">
+                            <p>🗸</p>
+                        </div>
+                        <div class="number-icon-container">
+                            <p>I</p>
+                        </div>
+                        <div class= "description-container">
+                            <p>One-Time Task</p>
+                        </div>
+                        <div  class ="category-container">
+                            <p>Category</p>
+                        </div>
+                        <div class ="delete-container">
+                            <p>X</p>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div style="display: flex;" th:each="task: ${notFinishTasksWitOneTimeTask}">
+                    <div class="checkbox-container">
+                        <form>
+                            <input class="checkbox-type" type="checkbox" th:checked="${task.checkboxValue}" th:onclick="|window.location.href='/currentDuties/checkboxValue/' + ${task.id}|">
+                        </form>
+                    </div>
+                    <div class="number-icon-in-examples-container">
+                        <p th:text="${notFinishTasksWitOneTimeTask.indexOf(task)+1}"></p>
+                    </div>
+
+                    <div class= "description-in-examples-container">
+                        <a style= "text-decoration: none;
+       color: black;" th:href="@{'/editTask/' + ${task.id}}" th:text="${task.name}"></a>
+                    </div>
+
+                    <div class ="category-in-examples-container">
+                        <p style="color: #c40e2e" th:if="${task.getCategory().toString()=='THEMOSTIMPORTANT'}">The most important</p>
+                        <p style="color: #2ab12a;" th:if="${task.getCategory().toString()=='IMPORTANT'}">Important</p>
+                        <p style="color: #3ca9ff" th:if="${task.getCategory().toString()=='NORMAL'}">Normal</p>
+                    </div>
+                    <div class ="delete-button-container">
+                        <form style="display: flex" th:action="@{'/deleteTask/' + ${task.id}}" method="get">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>
+
+                </div>
+
+
+                <div style="display: flex;">
+                    <div style="border-top: none" class="tick-icon-container">
+                        <p>🗸</p>
+                    </div>
+                    <div style="border-top: none" class="number-icon-container">
+                        <p>I</p>
+                    </div>
+                    <div style="border-top: none" class= "description-container">
+                        <p>Weekly Task</p>
+                    </div>
+                    <div style="border-top: none" class ="category-container">
+                        <p>Category</p>
+                    </div>
+                    <div style="border-top: none" class ="delete-container">
+                        <p>X</p>
+                    </div>
+                </div>
+
+                <div style="display: flex;" th:each="task : ${notFinishTasksWithWeeklyType}">
+                    <div class="checkbox-container">
+                        <input class="checkbox-type" type="checkbox" th:checked="${task.checkboxValue}" th:onclick="|window.location.href='/currentDuties/checkboxValue/' + ${task.id}|">
+                    </div>
+                    <div class="number-icon-in-examples-container">
+                        <p th:text=${notFinishTasksWithWeeklyType.indexOf(task)+1}></p>
+                    </div>
+                    <div class= "description-in-examples-container">
+                        <a style= "text-decoration: none;
+       color: black;" th:href="@{'/editTask/' + ${task.id}}" th:text="${task.name}"></a>
+                    </div>
+                    <div class ="category-in-examples-container">
+                        <p style="color: #c40e2e" th:if="${task.getCategory().toString()=='THEMOSTIMPORTANT'}">The most important</p>
+                        <p style="color: #2ab12a;" th:if="${task.getCategory().toString()=='IMPORTANT'}">Important</p>
+                        <p style="color: #3ca9ff" th:if="${task.getCategory().toString()=='NORMAL'}">Normal</p>
+                    </div>
+                    <div class ="delete-button-container">
+                        <form style="display: flex" th:action="@{'/deleteTask/' + ${task.id}}" method="get">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: flex;">
+            <div class="grid-item" style="width: 300px;">
+                <div class="result-text-container">
+                    <p style="color:#2ab12a">Tasks finished</p>
+                </div>
+                <div  class="result-text-container">
+                    <p style="color: #c40e2e">Tasks not finish</p>
+                </div>
+                <div  class="result-text-container">
+                    <p>Points</p>
+                </div>
+                <div  style ="border-bottom: solid; border-width: 2px;" class="result-text-container">
+                    <h2 style="color:deepskyblue">Result</h2>
+                </div>
+            </div>
+            <div class="grid-item" style="width: 250px;">
+                <div class="result-points-container" >
+                    <p th:text="${summary.numberOfTaskFinished}"></p>
+                </div>
+                <div class="result-points-container">
+                    <p th:text="${summary.numberOfTaskNotFinish}"></p>
+                </div>
+                <div class="result-points-container">
+                    <p th:text="${summary.numberOfPointsScored} + '/' + ${summary.numberOfAllPoints}" ></p>
+                </div>
+                <div style ="border-bottom:solid; border-width: 2px;" class="result-points-container">
+                    <h2 style="color:deepskyblue" th:text="${summary.productivityResult}+' %'"></h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div style="display: flex; margin-top: 40px; justify-content: center;">
+        <div class="button-edit-container">
+            <button class="edit-button">Edit Task</button>
+            <p class="edit-hover-button-information">
+                Click on the name of task you want to edit.
+            </p>
+        </div>
+        <form th:action="@{/home}" method="get">
+            <button type="submit" class="resultandhome-button">Home</button>
+        </form>
+    </div>
+
+</div>
+
+
+</body>
+</html>
+
