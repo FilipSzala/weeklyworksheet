@@ -6,9 +6,7 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.weeklyplanner.weeklyworksheet.Summary;
 import pl.weeklyplanner.weeklyworksheet.model.Task;
 import pl.weeklyplanner.weeklyworksheet.service.TaskService;
@@ -29,19 +27,20 @@ public class CurrentDutiesController {
         this.userService = userService;
         this.summary = summary;
     }
+    //I can't use mapping - Put/Patch/Delete, because it isn't available in html elements (form and input).
     @GetMapping("/currentDuties")
     public String displaycurrentDuties(Model model, HttpSession httpSession,LocalDate monday) {
         summary.setFields(httpSession,monday,0,null,null);
         weeklyAttribiutes(model,httpSession,monday);
         return "/currentDuties";
     }
-    @GetMapping ("/currentDuties/checkboxValue/{taskId}")
-    public String updateCheckboxValueId(@PathVariable("taskId") Long taskId, HttpServletRequest request) {
+    @GetMapping ("/tasks/checkboxValue/{taskId}")
+    public String updateCheckboxValue(@PathVariable("taskId") Long taskId, HttpServletRequest request) {
         String requestUrl = request.getHeader("Referer");
         taskService.updateFieldCheckboxValue(taskService.findTasktById(taskId).orElseThrow());
         return "redirect:" + requestUrl;
     }
-    @GetMapping  ("/editTask/{taskId}")
+    @GetMapping  ("/tasks/{taskId}")
     public String displayTaskEditPage(@PathVariable("taskId")Long taskId, Model model, HttpServletRequest request){
         previousPage = request.getHeader("Referer");
         model.addAttribute("task", taskService.findTasktById(taskId).get());
@@ -49,12 +48,12 @@ public class CurrentDutiesController {
         return "taskEdit";
     }
 
-    @PostMapping("/editTask/{taskId}")
+    @PostMapping("/tasks/{taskId}")
     public String updateTask(@PathVariable("taskId") Long taskId, Task editedTask){
         taskService.updateTask(editedTask,taskId);
         return "redirect:" +previousPage;
     }
-    @GetMapping("/deleteTask/{taskId}")
+    @GetMapping("/tasks/delete/{taskId}")
     public String deleteTask(@PathVariable("taskId")Long taskId,HttpServletRequest request){
         previousPage = request.getHeader("Referer");
         taskService.deleteTaskById(taskId);

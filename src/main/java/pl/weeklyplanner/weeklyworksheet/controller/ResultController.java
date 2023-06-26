@@ -21,6 +21,8 @@ public class ResultController {
     public ResultController(Summary summary) {
         this.summary = summary;
     }
+
+    //I can't use mapping - Put/Patch/Delete, because it isn't available in html elements (form and input).
     @GetMapping("/result")
     public String displayResultPage(Model model, HttpSession httpSession, LocalDate monday){
         summary.setFields(httpSession,monday,0,null,null);

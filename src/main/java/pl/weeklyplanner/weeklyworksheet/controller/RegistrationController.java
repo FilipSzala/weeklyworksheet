@@ -18,12 +18,14 @@ public class RegistrationController {
         this.userService = userService;
     }
 
-    @GetMapping("/register")
+    //I can't use mapping - Put/Patch/Delete, because it isn't available in html elements (form and input).
+
+    @GetMapping("/registration")
     public String displayRegistrationForm() {
         return "registration";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/registrationr")
     public String registerUser(User user, Model model) {
 
         if (!userService.isPasswordValid(user.getPassword())) {

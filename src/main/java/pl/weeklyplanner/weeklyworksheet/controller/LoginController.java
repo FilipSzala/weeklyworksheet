@@ -19,6 +19,7 @@ public class LoginController {
     public LoginController(UserService userService) {
         this.userService = userService;
     }
+    //I can't use mapping - Put/Patch/Delete, because it isn't available in html elements (form and input).
 
     @GetMapping("/login")
     public String displayLoginForm() {

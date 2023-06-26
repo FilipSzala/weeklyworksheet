@@ -16,6 +16,4 @@ public interface TaskRepository extends JpaRepository <Task,Long> {
     @Query (value = "SELECT * FROM weeklyworksheet.task WHERE monday = :monday", nativeQuery = true)
     List <Task> findTasksByMonday(@Param("monday")LocalDate monday);
 
-
-
 }

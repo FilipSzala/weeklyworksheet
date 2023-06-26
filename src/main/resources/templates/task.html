@@ -10,12 +10,12 @@
         </div>
 
 
-    <form th:action="@{/addTask}" method="post">
+    <form th:action="@{/tasks}" method="post">
     <div class="main-container">
     <div class="task-type-container">
         <p>Task type</p>
     <select name="type" class="type-select">
-        <option th:each="taskType : ${T(pl.weeklyplanner.weeklyworksheet.model.TaskType).values()}"
+        <option th:each="taskType : ${T(pl.weeklyplanner.weeklyworksheet.TaskType).values()}"
                 th:value="${taskType}" name="type">
             <p th:if="${taskType.name()=='ONETIMETASK'}">One time task</p>
             <p th:if="${taskType.name()=='WEEKLYTASK'}">Weekly task</p>
@@ -30,7 +30,7 @@
     <div class="task-category-container">
         <p>Category</p>
         <select name="category" class="category-select">
-         <option th:each="taskCategory : ${T(pl.weeklyplanner.weeklyworksheet.model.TaskCategory).values()}"
+         <option th:each="taskCategory : ${T(pl.weeklyplanner.weeklyworksheet.TaskCategory).values()}"
                     th:value="${taskCategory}" name="category">
                 <p th:if="${taskCategory.name()=='NORMAL'}">Normal</p>
              <p th:if="${taskCategory.name()=='IMPORTANT'}">Important</p>

@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.weeklyplanner.weeklyworksheet.model.Task;
-import pl.weeklyplanner.weeklyworksheet.model.User;
 import pl.weeklyplanner.weeklyworksheet.repository.TaskRepository;
 import pl.weeklyplanner.weeklyworksheet.repository.UserRepository;
 
@@ -33,23 +32,22 @@ public class TaskService {
         return taskRepository.findById(id);
     }
 
-    public Task saveTaskWithUserId(Task task,Long userId) {
+    public void saveTaskWithUserId(Task task,Long userId) {
         task.setUserId(userId);
-        return taskRepository.save(task);
+       taskRepository.save(task);
     }
-    public Task saveTask(Task task) {
-        return taskRepository.save(task);
+    public void saveTask(Task task) {
+        taskRepository.save(task);
     }
     public void deleteTaskById(Long id) {
         taskRepository.deleteById(id);
     }
-    public Task updateTask(Task editedTask, Long editTaskId) {
-        Optional<Task> task = findTasktById(editTaskId);
-        task.get().setId(editTaskId);
+    public void updateTask(Task editedTask, Long id) {
+        Optional<Task> task = findTasktById(id);
         task.get().setName(editedTask.getName());
         task.get().setType(editedTask.getType());
         task.get().setCategory(editedTask.getCategory());
-        return saveTask(task.orElseThrow());
+        saveTask(task.orElseThrow());
             }
     public void updateFieldCheckboxValue(Task task) {
         task.setCheckboxValue(task.getCheckboxValue() == false ? true : false);

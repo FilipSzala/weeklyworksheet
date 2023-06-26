@@ -26,19 +26,19 @@ public class HomeController {
         this.userService = userService;
         this.authenticationFilter = authenticationFilter;
     }
-
+    //I can't use mapping - Put/Patch/Delete, because it isn't available in html elements (form and input).
     @GetMapping("/home")
     public String displayHomePage(Model model, HttpSession httpSession) {
             model.addAttribute("username", userService.findUserByUserId(httpSession).getUsername());
             return "home";
     }
 
-    @GetMapping("/task")
+    @GetMapping("/tasks")
     public String displayTaskPage() {
         return "task";
     }
 
-    @PostMapping("/addTask")
+    @PostMapping("/tasks")
     public String addTask(Task task,HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");
         taskService.saveTaskWithUserId(task, userId);
