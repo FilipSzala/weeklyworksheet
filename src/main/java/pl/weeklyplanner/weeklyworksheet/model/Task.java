@@ -1,6 +1,8 @@
 package pl.weeklyplanner.weeklyworksheet.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import pl.weeklyplanner.weeklyworksheet.TaskCategory;
@@ -10,10 +12,11 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 @Getter
 @Setter
 @Entity
+@Builder
+@AllArgsConstructor
 public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

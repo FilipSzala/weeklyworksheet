@@ -36,7 +36,7 @@ public class AuthenticationFilter implements Filter {
     }
     private boolean isRegisterPage(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        return requestURI.contains("/register");
+        return requestURI.contains("/registration");
     }
 }
 

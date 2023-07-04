@@ -37,13 +37,13 @@ public class CurrentDutiesController {
     @GetMapping ("/tasks/checkboxValue/{taskId}")
     public String updateCheckboxValue(@PathVariable("taskId") Long taskId, HttpServletRequest request) {
         String requestUrl = request.getHeader("Referer");
-        taskService.updateFieldCheckboxValue(taskService.findTasktById(taskId).orElseThrow());
+        taskService.updateFieldCheckboxValue(taskService.findTaskById(taskId).orElseThrow());
         return "redirect:" + requestUrl;
     }
     @GetMapping  ("/tasks/{taskId}")
     public String displayTaskEditPage(@PathVariable("taskId")Long taskId, Model model, HttpServletRequest request){
         previousPage = request.getHeader("Referer");
-        model.addAttribute("task", taskService.findTasktById(taskId).get());
+        model.addAttribute("task", taskService.findTaskById(taskId).get());
         model.addAttribute("previousPage",previousPage);
         return "taskEdit";
     }

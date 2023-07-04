@@ -24,7 +24,7 @@ public class UserService {
         this.passwordValidator = passwordValidator;
     }
 
-    public void registerUser(User user){
+    public void saveUser(User user){
 
         userRepository.save(user);
     }

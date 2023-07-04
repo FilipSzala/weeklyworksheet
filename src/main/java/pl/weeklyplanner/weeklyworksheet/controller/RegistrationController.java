@@ -25,7 +25,7 @@ public class RegistrationController {
         return "registration";
     }
 
-    @PostMapping("/registrationr")
+    @PostMapping("/registration")
     public String registerUser(User user, Model model) {
 
         if (!userService.isPasswordValid(user.getPassword())) {
@@ -38,7 +38,7 @@ public class RegistrationController {
             return "registration";
         }
 
-        userService.registerUser(user);
+        userService.saveUser(user);
 
         return "redirect:/login";
     }

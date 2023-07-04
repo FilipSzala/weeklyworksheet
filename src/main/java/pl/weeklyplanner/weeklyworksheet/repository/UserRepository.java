@@ -9,10 +9,14 @@ import pl.weeklyplanner.weeklyworksheet.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    @Query(value = "select * from users where username = :username", nativeQuery = true)
+/*    @Query(value = "select * from users where username = :username", nativeQuery = true)
+    User findByUserName(@Param("username") String username);*/
+
+    @Query(value = "SELECT * FROM users WHERE binary username = :username", nativeQuery = true)
     User findByUserName(@Param("username") String username);
 
     @Query(value = "select * from users where user_Id = :userId", nativeQuery = true)
     User findByUserId(@Param("userId") Long userId);
+
 
 }
