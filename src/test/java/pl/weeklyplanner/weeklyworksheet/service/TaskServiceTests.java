@@ -13,6 +13,7 @@ import pl.weeklyplanner.weeklyworksheet.model.Task;
 import pl.weeklyplanner.weeklyworksheet.repository.TaskRepository;
 
 import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.when;
@@ -26,25 +27,20 @@ public class TaskServiceTests {
     @InjectMocks
     private  TaskService taskService;
     @Test void FindTaskById_CorrectId_ReturnTask(){
-        Task task = Task.builder()
-                .id(1L)
-                .build();
+        Long id = 1L;
+        Task task = Task.builder().build();
         when(taskRepository.findById(Mockito.any(Long.class))).thenReturn(Optional.of(task));
-        Optional <Task> foundTask = taskService.findTaskById(task.getId());
+        Optional <Task> foundTask = taskService.findTaskById(id);
         Assertions.assertThat(foundTask).isNotNull();
     }
     @Test void FindTaskById_IdLessThanExpected_ReturnException(){
-        Task task = Task.builder()
-                .id(0L)
-                .build();
-        assertThatThrownBy(() -> taskService.findTaskById(task.getId()))
+        Long id = 0L;
+        assertThatThrownBy(() -> taskService.findTaskById(id))
                 .isInstanceOf(IllegalArgumentException.class);
     }
     @Test void FindTaskById_IdIsNull_ReturnException(){
-        Task task = Task.builder()
-                .id(null)
-                .build();
-        assertThatThrownBy(() -> taskService.findTaskById(task.getId()))
+        Long id = null;
+        assertThatThrownBy(() -> taskService.findTaskById(id))
                 .isInstanceOf(NullPointerException.class);
     }
 
@@ -136,4 +132,130 @@ public class TaskServiceTests {
         assertThatThrownBy(() -> taskService.saveTask(task))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    public void DeleteTaskById_CorrectId_DeleteTask(){
+        Task task = Task.builder().id(1L).build();
+        assertAll(() -> taskService.deleteTaskById(task.getId()));
+    }
+    @Test
+    public void DeleteTaskById_IdIsNull_ReturnException(){
+        Task task = Task.builder().id(null).build();
+        assertThatThrownBy(() -> taskService.deleteTaskById(task.getId()))
+                .isInstanceOf(NullPointerException.class);
+    }
+    @Test
+    public void DeleteTaskById_IdLessThanExpected_ReturnException(){
+        Task task = Task.builder().id(0L).build();
+        assertThatThrownBy(() -> taskService.deleteTaskById(task.getId()))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+
+    @Test void UpdateTask_CorrectTaskAndId_ReturnTask(){
+        Long userId = 1L;
+        Task oldTask = Task.builder()
+                .id(1L)
+                .name("Test")
+                .type(TaskType.ONETIMETASK)
+                .category(TaskCategory.NORMAL)
+                .build();
+        Task editedTask = Task.builder()
+                .id(1L)
+                .name("TestCorrect")
+                .type(TaskType.WEEKLYTASK)
+                .category(TaskCategory.THEMOSTIMPORTANT)
+                .build();
+        when(taskRepository.findById(Mockito.any(Long.class))).thenReturn(Optional.of(oldTask));
+        when(taskRepository.save(Mockito.any(Task.class))).thenReturn(oldTask);
+
+
+        Task savedTask = taskService.updateTask(editedTask,userId);
+        Assertions.assertThat(savedTask).isNotNull();
+        Assertions.assertThat(savedTask.getName()).isEqualTo("TestCorrect");
+        Assertions.assertThat(savedTask.getCategory()).isEqualTo(TaskCategory.THEMOSTIMPORTANT);
+    }
+    @Test void UpdateTask_CorrectTaskIdLessThanExpected_ReturnException(){
+        Long userId = 0L;
+        Task editedTask = Task.builder()
+                .id(1L)
+                .name("TestCorrect")
+                .type(TaskType.WEEKLYTASK)
+                .category(TaskCategory.THEMOSTIMPORTANT)
+                .build();
+
+        assertThatThrownBy(() -> taskService.updateTask(editedTask,userId))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+    @Test void UpdateTask_CorrectTaskIdIsNull_ReturnException(){
+        Long userId = null;
+        Task editedTask = Task.builder()
+                .id(1L)
+                .name("TestCorrect")
+                .type(TaskType.WEEKLYTASK)
+                .category(TaskCategory.THEMOSTIMPORTANT)
+                .build();
+
+        assertThatThrownBy(() -> taskService.updateTask(editedTask,userId))
+                .isInstanceOf(NullPointerException.class);
+    }
+    @Test void UpdateTask_IncorrectTaskIdLessThanExpexted_ReturnException(){
+        Long userId = 0L;
+        Task editedTask = Task.builder()
+                .name(null)
+                .type(TaskType.ONETIMETASK)
+                .category(TaskCategory.NORMAL)
+                .build();
+        assertThatThrownBy(() -> taskService.updateTask(editedTask,userId))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+    @Test void UpdateTask_IncorrectTaskIdIsNull_ReturnException(){
+        Long userId = null;
+        Task editedTask = Task.builder()
+                .name(null)
+                .type(TaskType.ONETIMETASK)
+                .category(TaskCategory.NORMAL)
+                .build();
+        assertThatThrownBy(() -> taskService.updateTask(editedTask,userId))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+    @Test
+    void UpdateTask_IncorrectTaskIdCorrect_ReturnException(){
+        Long userId = 1L;
+        Task editedTask = Task.builder()
+                .name(null)
+                .type(TaskType.ONETIMETASK)
+                .category(TaskCategory.NORMAL)
+                .build();
+
+        assertThatThrownBy(() -> taskService.updateTask(editedTask,userId))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+    @Test
+    void UpdateFieldCheckboxValue_CorrectTask_UpdateCheckbox(){
+        Task task = Task.builder()
+                .id(1L)
+                .name("test")
+                .checkboxValue(false)
+                .type(TaskType.ONETIMETASK)
+                .category(TaskCategory.NORMAL)
+                .build();
+
+        when(taskRepository.save(Mockito.any(Task.class))).thenReturn(task);
+        assertAll(() -> taskService.updateFieldCheckboxValue(task));
+    }
+
+    @Test
+    void UpdateFieldCheckboxValue_InorrectTask_ReturnException(){
+        Task task = Task.builder()
+                .id(1L)
+                .name("test")
+                .checkboxValue(null)
+                .type(TaskType.ONETIMETASK)
+                .category(TaskCategory.NORMAL)
+                .build();
+        assertThatThrownBy(() -> taskService.updateFieldCheckboxValue(task))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
 }

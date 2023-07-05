@@ -57,16 +57,32 @@ public class TaskService {
     }
 
     public void deleteTaskById(Long id) {
+        if (id==null){
+            throw new NullPointerException("Id is incorrect");
+        }else if (id<=0) {
+            throw new IllegalArgumentException("Id is incorrect");
+        }
         taskRepository.deleteById(id);
     }
-    public void updateTask(Task editedTask, Long id) {
+    public Task updateTask(Task editedTask, Long id) {
+        if (editedTask.getName() == null||editedTask.getType()==null||editedTask.getCategory()==null) {
+            throw new IllegalArgumentException("Edited task can't be empty");
+        }
+        else if (id==null){
+            throw new NullPointerException("Id is incorrect");
+        }else if (id<=0) {
+            throw new IllegalArgumentException("Id is incorrect");
+        }
         Optional<Task> task = findTaskById(id);
         task.get().setName(editedTask.getName());
         task.get().setType(editedTask.getType());
         task.get().setCategory(editedTask.getCategory());
-        saveTask(task.orElseThrow());
-            }
+        return saveTask(task.orElseThrow());
+
+        }
     public void updateFieldCheckboxValue(Task task) {
+        if (task.getName() == null||task.getType()==null||task.getCategory()==null || task.getCheckboxValue()==null) {
+            throw new IllegalArgumentException("Task has empty field");}
         task.setCheckboxValue(task.getCheckboxValue() == false ? true : false);
         saveTask(task);
     }
