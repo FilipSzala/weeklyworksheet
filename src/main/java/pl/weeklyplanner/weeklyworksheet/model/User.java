@@ -25,5 +25,4 @@ public class User {
     @OneToMany
     @JoinColumn(name="userId")
     private List<Task> taskList;
-
 }

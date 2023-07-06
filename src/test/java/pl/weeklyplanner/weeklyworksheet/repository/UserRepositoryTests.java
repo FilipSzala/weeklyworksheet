@@ -1,3 +1,4 @@
+
 package pl.weeklyplanner.weeklyworksheet.repository;
 
 import org.assertj.core.api.Assertions;
@@ -104,3 +105,4 @@ public class UserRepositoryTests {
     }
 
 }
+

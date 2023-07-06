@@ -2,6 +2,8 @@ package pl.weeklyplanner.weeklyworksheet.service;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.weeklyplanner.weeklyworksheet.model.Task;
@@ -17,6 +19,7 @@ import java.util.Optional;
 
 public class TaskService {
     private TaskRepository taskRepository;
+    protected final Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
     public TaskService(TaskRepository taskRepository) {
 
@@ -39,20 +42,31 @@ public class TaskService {
 
     public Task saveTaskWithUserId(Task task,Long userId) {
         if (userId<=0){
-            throw new IllegalArgumentException("Id is incorrect");
+            log.error("Id was less than expected. Id - " + userId.toString());
+            throw new IllegalArgumentException("Id can't be less than 1");
         } else if(userId==null){
-            throw new NullPointerException("Id is incorrect");
+            log.error("Id was null. Id - " + userId.toString());
+            throw new NullPointerException("Id can't be null");
         } else if (task.getName() == null||task.getType()==null||task.getCategory()==null) {
+            log.error("Some fields of task were empty. Name - " +task.getName() + " Type - " + task.getType().toString() + " Category - "+task.getCategory().toString());
+            throw new IllegalArgumentException("Fields of task can't be empty");
+        }
+            else if (task==null) {
+            log.error("Task was empty");
             throw new IllegalArgumentException("Task can't be empty");
         }
+
         task.setUserId(userId);
+        log.info("Task added successfully");
        return taskRepository.save(task);
     }
 
     public Task saveTask(Task task) {
         if (task.getName() == null||task.getType()==null||task.getCategory()==null) {
+            log.error("Empty fields");
             throw new IllegalArgumentException("Task can't be empty");
         }
+        log.info("Task added successfully");
         return taskRepository.save(task);
     }
 

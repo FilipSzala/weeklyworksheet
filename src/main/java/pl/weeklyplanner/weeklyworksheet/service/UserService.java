@@ -2,7 +2,10 @@ package pl.weeklyplanner.weeklyworksheet.service;
 
 
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import pl.weeklyplanner.weeklyworksheet.PasswordValidator;
 import pl.weeklyplanner.weeklyworksheet.model.Task;
@@ -18,6 +21,7 @@ public class UserService {
 
     private UserRepository userRepository;
     private PasswordValidator passwordValidator;
+    protected final Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
     public UserService(UserRepository userRepository, PasswordValidator passwordValidator) {
         this.userRepository = userRepository;
@@ -25,7 +29,7 @@ public class UserService {
     }
 
     public void saveUser(User user){
-
+        user.setPassword(encryptPassword(user.getPassword()));
         userRepository.save(user);
     }
     public List<User> findAllUsers(){
@@ -54,7 +58,8 @@ public class UserService {
         if(findByUserName(username)==null){
             return false;
         }
-        return userRepository.findByUserName(username).getPassword().equals(password);
+        String hashedPassword = userRepository.findByUserName(username).getPassword();
+        return checkDecryptPassword(password,hashedPassword);
     }
     public User findByUserName(String username){
         return userRepository.findByUserName(username);
@@ -64,5 +69,11 @@ public class UserService {
                 .filter(task -> task.getMonday().equals(monday))
                 .collect(Collectors.toList());
     }
-
+    public String encryptPassword (String password){
+        String hashedPassword = BCrypt.hashpw(password,BCrypt.gensalt());
+        return hashedPassword;
+    }
+    public Boolean checkDecryptPassword (String password,String hashedPassword){
+        return BCrypt.checkpw(password,hashedPassword);
+    }
 }

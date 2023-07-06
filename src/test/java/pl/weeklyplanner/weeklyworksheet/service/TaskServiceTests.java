@@ -1,3 +1,4 @@
+
 package pl.weeklyplanner.weeklyworksheet.service;
 
 import org.assertj.core.api.Assertions;
@@ -259,3 +260,4 @@ public class TaskServiceTests {
     }
 
 }
+

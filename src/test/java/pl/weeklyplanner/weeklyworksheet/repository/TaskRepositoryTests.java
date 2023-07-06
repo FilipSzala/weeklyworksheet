@@ -1,3 +1,4 @@
+
 package pl.weeklyplanner.weeklyworksheet.repository;
 
 import org.assertj.core.api.Assertions;
@@ -55,3 +56,4 @@ public class TaskRepositoryTests {
         Assertions.assertThat(taskList).isEmpty();
     }
 }
+
