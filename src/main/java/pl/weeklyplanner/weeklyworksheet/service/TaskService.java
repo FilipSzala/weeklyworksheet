@@ -33,59 +33,68 @@ public class TaskService {
 
     public Optional<Task> findTaskById(Long id) {
         if (id==null){
-            throw new NullPointerException("Id is incorrect");
+            log.error("Id was null. Id - " + id.toString());
+            throw new NullPointerException("Id can't be null");
         }else if (id<=0) {
-            throw new IllegalArgumentException("Id is incorrect");
+            log.error("Id was less than expected. Id - " + id.toString());
+            throw new IllegalArgumentException("Id can't be less than 1");
         }
         return taskRepository.findById(id);
     }
 
     public Task saveTaskWithUserId(Task task,Long userId) {
-        if (userId<=0){
+        if (userId <= 0) {
             log.error("Id was less than expected. Id - " + userId.toString());
             throw new IllegalArgumentException("Id can't be less than 1");
-        } else if(userId==null){
+        } else if (userId == null) {
             log.error("Id was null. Id - " + userId.toString());
             throw new NullPointerException("Id can't be null");
-        } else if (task.getName() == null||task.getType()==null||task.getCategory()==null) {
-            log.error("Some fields of task were empty. Name - " +task.getName() + " Type - " + task.getType().toString() + " Category - "+task.getCategory().toString());
+        } else if (task.getName() == null || task.getType() == null || task.getCategory() == null) {
+            log.error("Some fields of task were empty. Name - " + task.getName() + " Type - " + task.getType().toString() + " Category - " + task.getCategory().toString());
             throw new IllegalArgumentException("Fields of task can't be empty");
-        }
-            else if (task==null) {
+        } else if (task == null) {
             log.error("Task was empty");
             throw new IllegalArgumentException("Task can't be empty");
         }
-
-        task.setUserId(userId);
-        log.info("Task added successfully");
-       return taskRepository.save(task);
+            task.setUserId(userId);
+            String taskname = task.getName();
+            log.info("Task " + taskname + " added successfully");
+            return taskRepository.save(task);
     }
 
     public Task saveTask(Task task) {
         if (task.getName() == null||task.getType()==null||task.getCategory()==null) {
-            log.error("Empty fields");
-            throw new IllegalArgumentException("Task can't be empty");
+            log.error("Some fields of task were empty. Name - " + task.getName() + " Type - " + task.getType().toString() + " Category - " + task.getCategory().toString());
+            throw new IllegalArgumentException("Fields of task can't be empty");
         }
-        log.info("Task added successfully");
+        String taskname = task.getName();
+        log.info("Task " + taskname + " added successfully");
         return taskRepository.save(task);
     }
 
     public void deleteTaskById(Long id) {
         if (id==null){
-            throw new NullPointerException("Id is incorrect");
+            log.error("Id was null. Id - " + id.toString());
+            throw new NullPointerException("Id can't be null");
         }else if (id<=0) {
-            throw new IllegalArgumentException("Id is incorrect");
+            log.error("Id was less than expected. Id - " + id.toString());
+            throw new IllegalArgumentException("Id can't be less than 1");
         }
+        String username = findTaskById(id).get().getName();
+        log.info("task " + username +" deleted successfully");
         taskRepository.deleteById(id);
     }
     public Task updateTask(Task editedTask, Long id) {
         if (editedTask.getName() == null||editedTask.getType()==null||editedTask.getCategory()==null) {
-            throw new IllegalArgumentException("Edited task can't be empty");
+            log.error("Some fields of task were empty. Name - " + editedTask.getName() + " Type - " + editedTask.getType().toString() + " Category - " + editedTask.getCategory().toString());
+            throw new IllegalArgumentException("Fields of task can't be empty");
         }
         else if (id==null){
-            throw new NullPointerException("Id is incorrect");
+            log.error("Id was null. Id - " + id.toString());
+            throw new NullPointerException("Id can't be null");
         }else if (id<=0) {
-            throw new IllegalArgumentException("Id is incorrect");
+            log.error("Id was less than expected. Id - " + id.toString());
+            throw new IllegalArgumentException("Id can't be less than 1");
         }
         Optional<Task> task = findTaskById(id);
         task.get().setName(editedTask.getName());
@@ -95,10 +104,13 @@ public class TaskService {
 
         }
     public void updateFieldCheckboxValue(Task task) {
-        if (task.getName() == null||task.getType()==null||task.getCategory()==null || task.getCheckboxValue()==null) {
-            throw new IllegalArgumentException("Task has empty field");}
+        if (task.getCheckboxValue()==null) {
+            log.error("Checkbox value was null. Checkbox - " + task.getType().toString());
+            throw new NullPointerException("Checkbox value can't be null");
+        }
         task.setCheckboxValue(task.getCheckboxValue() == false ? true : false);
         saveTask(task);
     }
+
     }
 

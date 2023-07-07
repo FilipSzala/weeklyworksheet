@@ -29,7 +29,22 @@ public class UserService {
     }
 
     public void saveUser(User user){
+        if (user.getUserId() <= 0) {
+            log.error("Id was less than expected. Id - " + user.getUserId().toString());
+            throw new IllegalArgumentException("Id can't be less than 1");
+        } else if (user.getUserId() == null) {
+            log.error("Id was null. Id - " + user.getUserId());
+            throw new NullPointerException("Id can't be null");
+        } else if (user.getUsername() == null || user.getPassword() == null) {
+            log.error("Some fields of user were empty. Name - " + user.getUsername());
+            throw new IllegalArgumentException("Fields of user can't be empty");
+        } else if (user == null) {
+            log.error("User was empty");
+            throw new IllegalArgumentException("User can't be empty");
+        }
         user.setPassword(encryptPassword(user.getPassword()));
+        String username = user.getUsername();
+        log.info("Username " + username + " added successfully");
         userRepository.save(user);
     }
     public List<User> findAllUsers(){
@@ -37,12 +52,18 @@ public class UserService {
         return users;
     }
     public User findUserByUserId(HttpSession httpSession){
-        Long userId = (Long) httpSession.getAttribute("userId");
-        if (userId!=null) {
-            return userRepository.findByUserId(Long.valueOf(userId));
+        if (httpSession == null) {
+            throw new IllegalArgumentException("HttpSession can't be null");
         }
-        else
-            return null;
+        Long userId = (Long) httpSession.getAttribute("userId");
+        if (userId <= 0) {
+            log.error("Id was less than expected. Id - " + userId.toString());
+            throw new IllegalArgumentException("Id can't be less than 1");
+        } else if (userId == null) {
+            log.error("Id was null. Id - " + userId);
+            throw new NullPointerException("Id can't be null");
+        }
+        return userRepository.findByUserId(userId);
     }
     public boolean isPasswordValid(String password){
         return passwordValidator.isPasswordValid(password);

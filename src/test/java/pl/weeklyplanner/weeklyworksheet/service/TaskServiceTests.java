@@ -256,7 +256,7 @@ public class TaskServiceTests {
                 .category(TaskCategory.NORMAL)
                 .build();
         assertThatThrownBy(() -> taskService.updateFieldCheckboxValue(task))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NullPointerException.class);
     }
 
 }
