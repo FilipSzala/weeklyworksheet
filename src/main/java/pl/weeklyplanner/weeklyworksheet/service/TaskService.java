@@ -42,7 +42,7 @@ public class TaskService {
         return taskRepository.findById(id);
     }
 
-    public Task saveTaskWithUserId(Task task,Long userId) {
+    public Task saveTask(Task task, Long userId) {
         if (userId <= 0) {
             log.error("Id was less than expected. Id - " + userId.toString());
             throw new IllegalArgumentException("Id can't be less than 1");
@@ -60,16 +60,6 @@ public class TaskService {
             String taskname = task.getName();
             log.info("Task " + taskname + " added successfully");
             return taskRepository.save(task);
-    }
-
-    public Task saveTask(Task task) {
-        if (task.getName() == null||task.getType()==null||task.getCategory()==null) {
-            log.error("Some fields of task were empty. Name - " + task.getName() + " Type - " + task.getType().toString() + " Category - " + task.getCategory().toString());
-            throw new IllegalArgumentException("Fields of task can't be empty");
-        }
-        String taskname = task.getName();
-        log.info("Task " + taskname + " added successfully");
-        return taskRepository.save(task);
     }
 
     public void deleteTaskById(Long id) {
@@ -100,7 +90,7 @@ public class TaskService {
         task.get().setName(editedTask.getName());
         task.get().setType(editedTask.getType());
         task.get().setCategory(editedTask.getCategory());
-        return saveTask(task.orElseThrow());
+        return saveTask(task.orElseThrow(),task.get().getUserId());
 
         }
     public void updateFieldCheckboxValue(Task task) {
@@ -109,8 +99,9 @@ public class TaskService {
             throw new NullPointerException("Checkbox value can't be null");
         }
         task.setCheckboxValue(task.getCheckboxValue() == false ? true : false);
-        saveTask(task);
+        saveTask(task,task.getUserId());
     }
+
 
     }
 

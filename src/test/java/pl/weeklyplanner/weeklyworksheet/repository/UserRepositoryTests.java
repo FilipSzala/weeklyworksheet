@@ -8,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import pl.weeklyplanner.weeklyworksheet.model.User;
 
+import java.util.Optional;
+
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class UserRepositoryTests {
@@ -23,9 +25,9 @@ public class UserRepositoryTests {
              .build();
      //Act
     userRepository.save(user);
-    User User = userRepository.findByUserName(user.getUsername());
+    Optional <User> foundUser =userRepository.findByUserName(user.getUsername());
      //Assert
-     Assertions.assertThat(User).isNotNull();
+     Assertions.assertThat(foundUser).isNotNull();
     }
     @Test
     public void FindByUserName_UsernameWithDifferentLetterSize_ReturnNull(){
@@ -39,11 +41,11 @@ public class UserRepositoryTests {
         //Act
         userRepository.save(user);
         userRepository.save(user2);
-        User User = userRepository.findByUserName("a".repeat(21).toUpperCase());
-        User User2 = userRepository.findByUserName("a".repeat(22).toLowerCase());
+        Optional<User> foundUser1 = userRepository.findByUserName("a".repeat(21).toUpperCase());
+        Optional <User> foundUser2 = userRepository.findByUserName("a".repeat(22).toLowerCase());
         //Assert
-        Assertions.assertThat(User).isNull();
-        Assertions.assertThat(User2).isNull();
+        Assertions.assertThat(foundUser1).isNull();
+        Assertions.assertThat(foundUser2).isNull();
     }
 
 @Test
@@ -52,9 +54,9 @@ public class UserRepositoryTests {
         User user = User.builder().build();
         //Act
         userRepository.save(user);
-        User User = userRepository.findByUserName(user.getUsername());
+        Optional <User> foundUser = userRepository.findByUserName(user.getUsername());
         //Assert
-        Assertions.assertThat(User).isNull();
+        Assertions.assertThat(foundUser).isNull();
     }
 
     @Test
@@ -65,9 +67,9 @@ public class UserRepositoryTests {
                 .build();
         //Act
         userRepository.save(user);
-        User User = userRepository.findByUserName(user.getUsername());
+        Optional <User> foundUser = userRepository.findByUserName(user.getUsername());
         //Assert
-        Assertions.assertThat(User).isNotNull();
+        Assertions.assertThat(foundUser).isNotNull();
     }
 
     @Test
@@ -86,9 +88,9 @@ public class UserRepositoryTests {
     @Test
     public void FindByUserId_IdDoesNotExist_ReturnNull(){
         //Act
-        User User = userRepository.findByUserId(0L);
+        User user = userRepository.findByUserId(0L);
         //Assert
-        Assertions.assertThat(User).isNull();
+        Assertions.assertThat(user).isNull();
     }
 
     @Test

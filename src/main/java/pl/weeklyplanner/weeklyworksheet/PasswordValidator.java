@@ -40,6 +40,6 @@ public class PasswordValidator {
         if (!password.matches("[a-zA-Z0-9]+")) {
             return false;
         }
-
         return true;
-}}
+}
+}

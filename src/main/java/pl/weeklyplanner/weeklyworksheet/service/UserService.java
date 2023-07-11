@@ -14,6 +14,7 @@ import pl.weeklyplanner.weeklyworksheet.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,18 +30,13 @@ public class UserService {
     }
 
     public void saveUser(User user){
-        if (user.getUserId() <= 0) {
-            log.error("Id was less than expected. Id - " + user.getUserId().toString());
-            throw new IllegalArgumentException("Id can't be less than 1");
-        } else if (user.getUserId() == null) {
-            log.error("Id was null. Id - " + user.getUserId());
-            throw new NullPointerException("Id can't be null");
-        } else if (user.getUsername() == null || user.getPassword() == null) {
-            log.error("Some fields of user were empty. Name - " + user.getUsername());
-            throw new IllegalArgumentException("Fields of user can't be empty");
-        } else if (user == null) {
+        if (user == null) {
             log.error("User was empty");
             throw new IllegalArgumentException("User can't be empty");
+        }
+        else if (user.getUsername() == null || user.getPassword() == null) {
+            log.error("Some fields of user were empty. Name - " + user.getUsername());
+            throw new IllegalArgumentException("Fields of user can't be empty");
         }
         user.setPassword(encryptPassword(user.getPassword()));
         String username = user.getUsername();
@@ -52,23 +48,30 @@ public class UserService {
         return users;
     }
     public User findUserByUserId(HttpSession httpSession){
-        if (httpSession == null) {
-            throw new IllegalArgumentException("HttpSession can't be null");
+       if (httpSession == null) {
+            throw new NullPointerException("Id can't be null");
         }
         Long userId = (Long) httpSession.getAttribute("userId");
-        if (userId <= 0) {
+         if(userId == null) {
+             log.error("Id was null. Id - " + userId);
+             throw new NullPointerException("Id can't be null");
+         }
+        else if (userId <= 0) {
             log.error("Id was less than expected. Id - " + userId.toString());
             throw new IllegalArgumentException("Id can't be less than 1");
-        } else if (userId == null) {
-            log.error("Id was null. Id - " + userId);
-            throw new NullPointerException("Id can't be null");
         }
         return userRepository.findByUserId(userId);
     }
-    public boolean isPasswordValid(String password){
-        return passwordValidator.isPasswordValid(password);
-    }
+
     public boolean existUsername(String username){
+        if (username.equals("")){
+            log.error("Username was empty");
+            throw new IllegalArgumentException("Username can't be empty");
+        }
+        if (username==null){
+            log.error("Username was null");
+            throw new IllegalArgumentException("Username can't be null");
+        }
         return findAllUsers().stream()
                 .map(user->user.getUsername())
                 .filter(name->name.equalsIgnoreCase(username))
@@ -76,19 +79,30 @@ public class UserService {
                 .isPresent();
     }
     public boolean isPasswordCorrect(String username, String password){
-        if(findByUserName(username)==null){
+        Optional<User> user = userRepository.findByUserName(username);
+        if(!user.isPresent()){
             return false;
         }
-        String hashedPassword = userRepository.findByUserName(username).getPassword();
+        String hashedPassword = user.get().getPassword();
         return checkDecryptPassword(password,hashedPassword);
     }
-    public User findByUserName(String username){
+    public Optional<User> findByUserName(String username){
+        if (username==null){
+            log.error("Username was null");
+            throw new IllegalArgumentException("Username can't be null");
+        }
         return userRepository.findByUserName(username);
 }
     public List<Task> findTasksByMonday(HttpSession httpSession, LocalDate monday){
-        return  findUserByUserId(httpSession).getTaskList().stream()
+        List <Task> foundTasks =findUserByUserId(httpSession).getTaskList().stream()
                 .filter(task -> task.getMonday().equals(monday))
                 .collect(Collectors.toList());
+        if (foundTasks.isEmpty()){
+            log.info("Found tasks by monday are empty");
+        }
+
+        return  foundTasks;
+
     }
     public String encryptPassword (String password){
         String hashedPassword = BCrypt.hashpw(password,BCrypt.gensalt());

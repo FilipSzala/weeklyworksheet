@@ -44,9 +44,7 @@ public class TaskServiceTests {
         assertThatThrownBy(() -> taskService.findTaskById(id))
                 .isInstanceOf(NullPointerException.class);
     }
-
-
-    @Test void SaveTaskWithUserId_CorrectTaskAndId_ReturnTask(){
+    @Test void SaveTask_CorrectTaskAndId_ReturnTask(){
         Long userId = 1L;
         Task task = Task.builder()
                 .name("Test")
@@ -55,10 +53,10 @@ public class TaskServiceTests {
                 .build();
         when(taskRepository.save(Mockito.any(Task.class))).thenReturn(task);
 
-        Task savedTask = taskService.saveTaskWithUserId(task,userId);
+        Task savedTask = taskService.saveTask(task,userId);
         Assertions.assertThat(savedTask).isNotNull();
     }
-    @Test void SaveTaskWithUserId_CorrectTaskIdLessThanExpected_ReturnException(){
+    @Test void SaveTask_CorrectTaskIdLessThanExpected_ReturnException(){
         Long userId = 0L;
         Task task = Task.builder()
                 .name("Test")
@@ -66,10 +64,10 @@ public class TaskServiceTests {
                 .category(TaskCategory.NORMAL)
                 .build();
 
-        assertThatThrownBy(() -> taskService.saveTaskWithUserId(task,userId))
+        assertThatThrownBy(() -> taskService.saveTask(task,userId))
                 .isInstanceOf(IllegalArgumentException.class);
     }
-    @Test void SaveTaskWithUserId_CorrectTaskIdIsNull_ReturnException(){
+    @Test void SaveTask_CorrectTaskIdIsNull_ReturnException(){
         Long userId = null;
         Task task = Task.builder()
                 .name("Test")
@@ -77,30 +75,30 @@ public class TaskServiceTests {
                 .category(TaskCategory.NORMAL)
                 .build();
 
-        assertThatThrownBy(() -> taskService.saveTaskWithUserId(task,userId))
+        assertThatThrownBy(() -> taskService.saveTask(task,userId))
                 .isInstanceOf(NullPointerException.class);
     }
-    @Test void SaveTaskWithUserId_IncorrectTaskIdLessThanExpexted_ReturnExceptions(){
+    @Test void SaveTask_IncorrectTaskIdLessThanExpexted_ReturnExceptions(){
         Long userId = 0L;
         Task task = Task.builder()
                 .name(null)
                 .type(TaskType.ONETIMETASK)
                 .category(TaskCategory.NORMAL)
                 .build();
-        assertThatThrownBy(() -> taskService.saveTaskWithUserId(task,userId))
+        assertThatThrownBy(() -> taskService.saveTask(task,userId))
                 .isInstanceOf(IllegalArgumentException.class);
     }
-    @Test void SaveTaskWithUserId_IncorrectTaskIdIsNull_ReturnExceptions(){
+    @Test void SaveTask_IncorrectTaskIdIsNull_ReturnExceptions(){
         Long userId = null;
         Task task = Task.builder()
                 .name(null)
                 .type(TaskType.ONETIMETASK)
                 .category(TaskCategory.NORMAL)
                 .build();
-        assertThatThrownBy(() -> taskService.saveTaskWithUserId(task,userId))
+        assertThatThrownBy(() -> taskService.saveTask(task,userId))
                 .isInstanceOf(NullPointerException.class);
     }
-    @Test void SaveTaskWithUserId_InorrectTaskIdCorrect_ReturnException(){
+    @Test void SaveTask_InorrectTaskIdCorrect_ReturnException(){
         Long userId = 1L;
         Task task = Task.builder()
                 .name(null)
@@ -108,29 +106,7 @@ public class TaskServiceTests {
                 .category(TaskCategory.NORMAL)
                 .build();
 
-        assertThatThrownBy(() -> taskService.saveTaskWithUserId(task,userId))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-    @Test
-    public void SaveTask_CorrectTask_ReturnTask(){
-        Task task = Task.builder()
-                .name("Test")
-                .type(TaskType.ONETIMETASK)
-                .category(TaskCategory.NORMAL)
-                .build();
-        when(taskRepository.save(Mockito.any(Task.class))).thenReturn(task);
-
-        Task savedTask = taskService.saveTask(task);
-
-        Assertions.assertThat(savedTask).isNotNull();
-        Assertions.assertThat(savedTask.getName()).isEqualTo(task.getName());
-    }
-
-    @Test
-    public void SaveTask_IncorrectTask_ReturnException(){
-        Task task = Task.builder()
-                .build();
-        assertThatThrownBy(() -> taskService.saveTask(task))
+        assertThatThrownBy(() -> taskService.saveTask(task,userId))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

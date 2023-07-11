@@ -10,6 +10,8 @@ import pl.weeklyplanner.weeklyworksheet.LoginSession;
 import pl.weeklyplanner.weeklyworksheet.model.User;
 import pl.weeklyplanner.weeklyworksheet.service.UserService;
 
+import java.util.Optional;
+
 @Controller
 public class LoginController {
 
@@ -29,8 +31,8 @@ public class LoginController {
     @PostMapping("/login")
     public String processLogin(String username, String password, HttpSession httpSession) {
         if (userService.isPasswordCorrect(username, password)) {
-            User loggedInUser = userService.findByUserName(username);
-            LoginSession session = new LoginSession(loggedInUser.getUserId());
+            Optional <User> loggedInUser = userService.findByUserName(username);
+            LoginSession session = new LoginSession(loggedInUser.get().getUserId());
             httpSession.setAttribute("userId", session.getUserId());
             return "redirect:/home";
         } else {

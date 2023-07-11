@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import pl.weeklyplanner.weeklyworksheet.PasswordValidator;
 import pl.weeklyplanner.weeklyworksheet.model.User;
 import pl.weeklyplanner.weeklyworksheet.service.UserService;
 
@@ -13,9 +14,11 @@ import pl.weeklyplanner.weeklyworksheet.service.UserService;
 public class RegistrationController {
 
     private UserService userService;
+    private PasswordValidator passwordValidator;
     @Autowired
-    public RegistrationController(UserService userService) {
+    public RegistrationController(UserService userService, PasswordValidator passwordValidator) {
         this.userService = userService;
+        this.passwordValidator = passwordValidator;
     }
 
     //I can't use mapping - Put/Patch/Delete, because it isn't available in html elements (form and input).
@@ -27,8 +30,7 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String registerUser(User user, Model model) {
-
-        if (!userService.isPasswordValid(user.getPassword())) {
+        if (!passwordValidator.isPasswordValid(user.getPassword())) {
             model.addAttribute("error", "Error.Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and a total of minimum 9 characters. Special characters are not allowed in the password");
             return "registration";
         }

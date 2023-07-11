@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name="users")
 @NoArgsConstructor
+
 public class User {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +22,7 @@ public class User {
     private Long userId;
     private String username;
     private String password;
+    private char[] passwordChar;
 
     @OneToMany
     @JoinColumn(name="userId")

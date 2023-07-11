@@ -41,7 +41,7 @@ public class HomeController {
     @PostMapping("/tasks")
     public String addTask(Task task,HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");
-        taskService.saveTaskWithUserId(task, userId);
+        taskService.saveTask(task, userId);
         return "task";
     }
 

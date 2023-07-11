@@ -34,6 +34,9 @@ public class Task {
 
     public Task() {
     }
+    public Task(LocalDate monday) {
+        this.monday = monday;
+    }
     public LocalDate setMonday(){
         if (today==today.with(DayOfWeek.MONDAY)){
             this.monday = today;

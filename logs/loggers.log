@@ -141,3 +141,33 @@
 2023-07-07 10:56:36 INFO  p.w.w.s.TaskService:60 - Task added successfully
 2023-07-07 10:56:47 INFO  p.w.w.s.TaskService:60 - Task added successfully
 2023-07-07 10:56:52 INFO  p.w.w.s.TaskService:83 - task zadanie deleted successfully
+2023-07-10 09:48:12 INFO  p.w.w.WeeklyWorksheetApplication:51 - Starting WeeklyWorksheetApplication using Java 20 with PID 5752 (C:\Users\filip\Programowanie heh\weeklyworksheet\target\classes started by filip in C:\Users\filip\Programowanie heh\weeklyworksheet)
+2023-07-10 09:48:12 INFO  p.w.w.WeeklyWorksheetApplication:632 - No active profile set, falling back to 1 default profile: "default"
+2023-07-10 09:48:19 INFO  p.w.w.WeeklyWorksheetApplication:57 - Started WeeklyWorksheetApplication in 7.907 seconds (process running for 8.956)
+2023-07-10 09:50:55 INFO  p.w.w.WeeklyWorksheetApplication:51 - Starting WeeklyWorksheetApplication using Java 20 with PID 19120 (C:\Users\filip\Programowanie heh\weeklyworksheet\target\classes started by filip in C:\Users\filip\Programowanie heh\weeklyworksheet)
+2023-07-10 09:50:55 INFO  p.w.w.WeeklyWorksheetApplication:632 - No active profile set, falling back to 1 default profile: "default"
+2023-07-10 09:51:03 INFO  p.w.w.WeeklyWorksheetApplication:57 - Started WeeklyWorksheetApplication in 9.314 seconds (process running for 10.656)
+2023-07-10 10:02:37 INFO  p.w.w.WeeklyWorksheetApplication:51 - Starting WeeklyWorksheetApplication using Java 20 with PID 18152 (C:\Users\filip\Programowanie heh\weeklyworksheet\target\classes started by filip in C:\Users\filip\Programowanie heh\weeklyworksheet)
+2023-07-10 10:02:37 INFO  p.w.w.WeeklyWorksheetApplication:632 - No active profile set, falling back to 1 default profile: "default"
+2023-07-10 10:02:42 INFO  p.w.w.WeeklyWorksheetApplication:57 - Started WeeklyWorksheetApplication in 6.623 seconds (process running for 7.55)
+2023-07-10 10:09:36 INFO  p.w.w.WeeklyWorksheetApplication:51 - Starting WeeklyWorksheetApplication using Java 20 with PID 3256 (C:\Users\filip\Programowanie heh\weeklyworksheet\target\classes started by filip in C:\Users\filip\Programowanie heh\weeklyworksheet)
+2023-07-10 10:09:36 INFO  p.w.w.WeeklyWorksheetApplication:632 - No active profile set, falling back to 1 default profile: "default"
+2023-07-10 10:09:42 INFO  p.w.w.WeeklyWorksheetApplication:57 - Started WeeklyWorksheetApplication in 6.607 seconds (process running for 7.543)
+2023-07-10 10:10:52 INFO  p.w.w.WeeklyWorksheetApplication:51 - Starting WeeklyWorksheetApplication using Java 20 with PID 25552 (C:\Users\filip\Programowanie heh\weeklyworksheet\target\classes started by filip in C:\Users\filip\Programowanie heh\weeklyworksheet)
+2023-07-10 10:10:52 INFO  p.w.w.WeeklyWorksheetApplication:632 - No active profile set, falling back to 1 default profile: "default"
+2023-07-10 10:11:00 INFO  p.w.w.WeeklyWorksheetApplication:57 - Started WeeklyWorksheetApplication in 9.106 seconds (process running for 10.477)
+2023-07-10 10:50:41 INFO  p.w.w.WeeklyWorksheetApplication:51 - Starting WeeklyWorksheetApplication using Java 20 with PID 18676 (C:\Users\filip\Programowanie heh\weeklyworksheet\target\classes started by filip in C:\Users\filip\Programowanie heh\weeklyworksheet)
+2023-07-10 10:50:41 INFO  p.w.w.WeeklyWorksheetApplication:632 - No active profile set, falling back to 1 default profile: "default"
+2023-07-10 10:50:47 INFO  p.w.w.WeeklyWorksheetApplication:57 - Started WeeklyWorksheetApplication in 6.754 seconds (process running for 7.789)
+2023-07-10 10:51:33 INFO  p.w.w.s.TaskService:61 - Task test added successfully
+2023-07-10 10:52:02 INFO  p.w.w.WeeklyWorksheetApplication:51 - Starting WeeklyWorksheetApplication using Java 20 with PID 29628 (C:\Users\filip\Programowanie heh\weeklyworksheet\target\classes started by filip in C:\Users\filip\Programowanie heh\weeklyworksheet)
+2023-07-10 10:52:02 INFO  p.w.w.WeeklyWorksheetApplication:632 - No active profile set, falling back to 1 default profile: "default"
+2023-07-10 10:52:10 INFO  p.w.w.WeeklyWorksheetApplication:57 - Started WeeklyWorksheetApplication in 9.396 seconds (process running for 10.693)
+2023-07-10 10:53:10 INFO  p.w.w.s.TaskService:61 - Task test added successfully
+2023-07-11 12:54:12 INFO  p.w.w.s.UserService:101 - Found tasks by monday are empty
+2023-07-11 12:54:20 INFO  p.w.w.WeeklyWorksheetApplication:51 - Starting WeeklyWorksheetApplication using Java 20 with PID 7944 (C:\Users\filip\Programowanie heh\weeklyworksheet\target\classes started by filip in C:\Users\filip\Programowanie heh\weeklyworksheet)
+2023-07-11 12:54:20 INFO  p.w.w.WeeklyWorksheetApplication:632 - No active profile set, falling back to 1 default profile: "default"
+2023-07-11 12:55:13 INFO  p.w.w.WeeklyWorksheetApplication:51 - Starting WeeklyWorksheetApplication using Java 20 with PID 30000 (C:\Users\filip\Programowanie heh\weeklyworksheet\target\classes started by filip in C:\Users\filip\Programowanie heh\weeklyworksheet)
+2023-07-11 12:55:13 INFO  p.w.w.WeeklyWorksheetApplication:632 - No active profile set, falling back to 1 default profile: "default"
+2023-07-11 12:55:21 INFO  p.w.w.WeeklyWorksheetApplication:57 - Started WeeklyWorksheetApplication in 8.531 seconds (process running for 9.81)
+2023-07-11 12:55:40 INFO  p.w.w.s.UserService:44 - Username Kinomadek1 added successfully
