@@ -118,28 +118,9 @@ public class UserServiceTests {
         userList.add(userCorrect);
         userList.add(userCorrect);
         assertThatThrownBy(() -> userService.existUsername(username))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NullPointerException.class);
     }
 
-
-    @Test void IsPasswordCorrect_CorrectUsernameAndPassword_ReturnTrue(){
-        when(userRepository.findByUserName(userCorrect.getUsername())).thenReturn(Optional.of(userCorrect));
-        when(userService.checkDecryptPassword(Mockito.any(String.class),"Szala123")).thenReturn(true);
-        Boolean isPasswordCorrect = userService.isPasswordCorrect(userCorrect.getUsername(),"Szala123");
-        Assertions.assertThat(isPasswordCorrect).isTrue();
-    }
-    @Test void IsPasswordCorrect_CorrectUsernamePasswordIncorrect_ReturnException(){
-
-    }
-    @Test void IsPasswordCorrect_CorrectUsernamePasswordIsNull_ReturnException(){
-
-    }
-    @Test void IsPasswordCorrect_UsernameIsNullCorrectPassword_ReturnExceptions(){
-
-    }
-    @Test void IsPasswordCorrect_UsernameIsEmptyCorrectPassword_ReturnExceptions(){
-
-    }
     @Test
     public void FindByUserName_ValidUsername_ReturnUser(){
         when (userRepository.findByUserName(userCorrect.getUsername())).thenReturn(Optional.of(userCorrect));

@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-        <title>Weekly worksheet</title>
-        <link rel="stylesheet" href="/style.css"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Weekly worksheet</title>
+    <link rel="stylesheet" href="/style.css"/>
 </head>
 <body>
     <h3 th:if="${username!=null}" th:text="'Username :  ' + ${username}" style="margin:0px;"></h3>
@@ -123,9 +126,6 @@
     </div>
 
 </div>
-
-
-
 </body>
 </html>
 

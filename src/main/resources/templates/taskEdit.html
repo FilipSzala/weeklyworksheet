@@ -1,6 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Weekly worksheet</title>
     <link rel="stylesheet" href="/style.css"/>
 </head>
@@ -46,7 +51,7 @@
 <div style="display: flex; margin-top: 40px; justify-content: center;">
             <form th:action="@{/currentDuties}" method="get">
                 </form>
-    <form th:action="${previousPage}=='http://localhost:8080/result?'? @{/result}:@{/currentDuties}" method="get">
+    <form th:action="${previousPage}=='http://kinomad.alwaysdata.net/result?'? @{/result}:@{/currentDuties}" method="get">
                     <button class="check-button">Back</button>
                             </form>
     <form th:action="@{/home}" method="get">

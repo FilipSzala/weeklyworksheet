@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Result</title>
     <link rel="stylesheet" href="/style.css"/>
 </head>
@@ -15,7 +18,7 @@
 
             <select onchange="redirect(this)">
                 <option value="" disabled selected th:text="${summary.getYear()==0? 'Year' : summary.getYear()}"></option>
-                <option  th:each="year : ${years}" th:value="'http://localhost:8080/searchYear/' + ${year}" th:text="${year}"></option>
+                <option  th:each="year : ${years}" th:value="'http://kinomad.alwaysdata.net/searchYear/' + ${year}" th:text="${year}"></option>
             </select>
 
             <script>
@@ -31,7 +34,7 @@
 
             <select onchange="redirect(this)">
                 <option value="" disabled selected th:text="${summary.getMonth()==null? 'Month' : summary.getMonth()}"></option>
-                <option  th:each="month : ${months}" th:value="'http://localhost:8080/searchMonth/' + ${month}" th:text="${month}"></option>
+                <option  th:each="month : ${months}" th:value="'http://kinomad.alwaysdata.net/searchMonth/' + ${month}" th:text="${month}"></option>
             </select>
 
             <script>
@@ -46,7 +49,7 @@
 
             <select onchange="redirect(this)">
                 <option value="" disabled selected>Week</option>
-                <option th:each="week : ${weeks}" th:if="${weeks.indexOf(week)+1 < weeks.size && weeks.indexOf(week)%2==0}" th:value="'http://localhost:8080/searchDate/' + ${week}" th:text="${week} + ' to ' + ${weeks.get(weeks.indexOf(week)+1)}"></option>
+                <option th:each="week : ${weeks}" th:if="${weeks.indexOf(week)+1 < weeks.size && weeks.indexOf(week)%2==0}" th:value="'http://kinomad.alwaysdata.net/searchDate/' + ${week}" th:text="${week} + ' to ' + ${weeks.get(weeks.indexOf(week)+1)}"></option>
             </select>
 
             <script>

@@ -112,7 +112,9 @@ public class TaskServiceTests {
 
     @Test
     public void DeleteTaskById_CorrectId_DeleteTask(){
-        Task task = Task.builder().id(1L).build();
+        Task task = Task.builder().name("test").id(1L).type(TaskType.ONETIMETASK).category(TaskCategory.NORMAL).build();
+        when(taskRepository.getById(Mockito.any(Long.class))).thenReturn(task);
+        Task test = taskRepository.getById(task.getId());
         assertAll(() -> taskService.deleteTaskById(task.getId()));
     }
     @Test
@@ -133,12 +135,14 @@ public class TaskServiceTests {
         Long userId = 1L;
         Task oldTask = Task.builder()
                 .id(1L)
+                .userId(1L)
                 .name("Test")
                 .type(TaskType.ONETIMETASK)
                 .category(TaskCategory.NORMAL)
                 .build();
         Task editedTask = Task.builder()
                 .id(1L)
+                .userId(1L)
                 .name("TestCorrect")
                 .type(TaskType.WEEKLYTASK)
                 .category(TaskCategory.THEMOSTIMPORTANT)
@@ -212,6 +216,7 @@ public class TaskServiceTests {
     void UpdateFieldCheckboxValue_CorrectTask_UpdateCheckbox(){
         Task task = Task.builder()
                 .id(1L)
+                .userId(1L)
                 .name("test")
                 .checkboxValue(false)
                 .type(TaskType.ONETIMETASK)

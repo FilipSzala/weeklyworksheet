@@ -13,6 +13,6 @@ import java.util.List;
 public interface TaskRepository extends JpaRepository <Task,Long> {
 
     List<Task> findAllByType(Enum type);
-    @Query (value = "SELECT * FROM weeklyworksheet.task WHERE monday = :monday", nativeQuery = true)
+    @Query ("SELECT t FROM Task t WHERE t.monday = :monday")
     List <Task> findTasksByMonday(@Param("monday")LocalDate monday);
 }

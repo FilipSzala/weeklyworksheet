@@ -27,10 +27,15 @@ public class HomeController {
         this.authenticationFilter = authenticationFilter;
     }
     //I can't use mapping - Put/Patch/Delete, because it isn't available in html elements (form and input).
-    @GetMapping("/home")
+    @GetMapping("home")
     public String displayHomePage(Model model, HttpSession httpSession) {
             model.addAttribute("username", userService.findUserByUserId(httpSession).getUsername());
             return "home";
+    }
+    @GetMapping("")
+    public String displayHomePageWithOtherUrl(Model model, HttpSession httpSession) {
+        model.addAttribute("username", userService.findUserByUserId(httpSession).getUsername());
+        return "home";
     }
 
     @GetMapping("/tasks")

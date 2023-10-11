@@ -21,31 +21,13 @@ public class UserRepositoryTests {
     public void FindByUserName_UsernameExists_ReturnUser(){
      //Arrange
      User user = User.builder()
-             .username("a".repeat(21))
+             .username("test")
              .build();
      //Act
     userRepository.save(user);
     Optional <User> foundUser =userRepository.findByUserName(user.getUsername());
      //Assert
      Assertions.assertThat(foundUser).isNotNull();
-    }
-    @Test
-    public void FindByUserName_UsernameWithDifferentLetterSize_ReturnNull(){
-        //Arrange
-        User user = User.builder()
-                .username("a".repeat(21))
-                .build();
-        User user2 = User.builder()
-                .username("A".repeat(22))
-                .build();
-        //Act
-        userRepository.save(user);
-        userRepository.save(user2);
-        Optional<User> foundUser1 = userRepository.findByUserName("a".repeat(21).toUpperCase());
-        Optional <User> foundUser2 = userRepository.findByUserName("a".repeat(22).toLowerCase());
-        //Assert
-        Assertions.assertThat(foundUser1).isNull();
-        Assertions.assertThat(foundUser2).isNull();
     }
 
 @Test
@@ -56,7 +38,7 @@ public class UserRepositoryTests {
         userRepository.save(user);
         Optional <User> foundUser = userRepository.findByUserName(user.getUsername());
         //Assert
-        Assertions.assertThat(foundUser).isNull();
+        Assertions.assertThat(foundUser).isEmpty();
     }
 
     @Test

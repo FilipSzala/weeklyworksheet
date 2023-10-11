@@ -70,7 +70,7 @@ public class TaskService {
             log.error("Id was less than expected. Id - " + id.toString());
             throw new IllegalArgumentException("Id can't be less than 1");
         }
-        String username = findTaskById(id).get().getName();
+        String username = taskRepository.getById(id).getName();
         log.info("task " + username +" deleted successfully");
         taskRepository.deleteById(id);
     }

@@ -32,7 +32,7 @@ public class CurrentDutiesController {
     public String displaycurrentDuties(Model model, HttpSession httpSession,LocalDate monday) {
         summary.setFields(httpSession,monday,0,null,null);
         weeklyAttribiutes(model,httpSession,monday);
-        return "/currentDuties";
+        return "currentDuties";
     }
     @GetMapping ("/tasks/checkboxValue/{taskId}")
     public String updateCheckboxValue(@PathVariable("taskId") Long taskId, HttpServletRequest request) {
